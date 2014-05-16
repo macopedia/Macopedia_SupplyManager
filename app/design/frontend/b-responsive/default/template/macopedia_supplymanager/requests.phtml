@@ -1,0 +1,53 @@
+<?php $employeeWishlists = $this->getEmployeeWishlists(); ?>
+<?php if ($employeeWishlists->getSize()): ?>
+    <div class="page-title">
+        <h1><?= $this->__('Employees wishlist') ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getPagerHtml(); ?>
+
+    <?php echo $this->getChildHtml('top'); ?>
+    <form id="wishlist-view-form"
+          action="<?php echo $this->getUrl('*/request/addToCart') ?>"
+          method="post">
+        <fieldset>
+            <?php echo $this->getBlockHtml('formkey');?>
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed" id="my-requests-table">
+                    <colgroup>
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr class="first last">
+                        <th><?= $this->__('Wishlist'); ?></th>
+                    </tr>
+                    </thead>
+                    <tbody class="font12">
+                    <?php foreach ($employeeWishlists as $employeeWishlist): ?>
+                        <tr class="first last odd">
+                            <td><?php
+                                $employee = Mage::getModel('customer/customer')->load($employeeWishlist->getCustomerId());
+                                echo $employee->getName() . " (" . $employee->getEmail() . ")" ?>
+                                <?php echo $this->getChild('items')->setItems($employeeWishlist->getItemCollection())->toHtml(); ?>
+                                <script type="text/javascript">decorateTable('wishlist-table')</script>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+        <div class="buttons-set buttons-set2">
+            <?php echo $this->getChild('control_buttons')->toHtml(); ?>
+        </div>
+    </form>
+
+    <script type="text/javascript">decorateTable('my-requests-table');</script>
+    </div>
+    <?php echo $this->getPagerHtml(); ?>
+<?php else: ?>
+    <div class="page-title">
+        <h1><?= $this->__('You don\'t have any employee requests') ?></h1>
+    </div>
+<?php
+endif; ?>

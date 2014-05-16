@@ -1,0 +1,41 @@
+<?php
+/* @var $this Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Cart */
+/* @var Mage_Wishlist_Model_Item $item */
+$item = $this->getItem();
+$product = $item->getProduct();
+/* @var $helper Macopedia_SupplyManager_Helper_Data */
+$helper = Mage::helper('macopedia_supplymanager');
+?>
+<div class="cart-cell">
+    <?php echo $this->getPriceHtml($product); ?>
+    <div class="add-to-cart-alt">
+        <?php if ($item->canHaveQty() && $item->getProduct()->isVisibleInSiteVisibility()): ?>
+            <div class="qty"><?php echo $this->__("Qty:") ?> <?php echo $this->getAddToCartQty($item) * 1 ?></div>
+        <?php endif; ?>
+        <?php if ($product->isSaleable()): ?>
+            <?php if ($helper->checkWishlistItemIsNotSaleable($item)): ?>
+                <label class="form-control"
+                       for="input_item_<?php echo $item->getId() ?>"><?php echo $this->__('Not configured') ?></label>
+                   <?php else : ?>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input id="input_item_<?php echo $item->getId() ?>" name="item[]"
+                               type="checkbox" title="<?php echo $this->__('Add to Cart') ?>" class="input-box"
+                               value="<?php echo $item->getId() ?>"/>
+                    </span>
+                    <label class="form-control"
+                           for="input_item_<?php echo $item->getId() ?>"><?php echo $this->__('Add to Cart') ?></label>
+                </div>
+            <?php endif; ?>
+        <?php else: ?>
+            <?php if ($product->getIsSalable()): ?>
+                <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
+            <?php else: ?>
+                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
+                <?php endif; ?>
+    </div>
+    <?php foreach ($this->getSortedChildren() as $childName): ?>
+        <?php echo $this->getChildHtml($childName, false); ?>
+    <?php endforeach; ?>
+</div>

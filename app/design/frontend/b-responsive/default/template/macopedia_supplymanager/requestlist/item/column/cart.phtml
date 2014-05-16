@@ -1,0 +1,72 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* @var $this Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Cart */
+/* @var Mage_Wishlist_Model_Item $item */
+$item = $this->getItem();
+$helper = Mage::helper('catalog/product_configuration');
+$product = $item->getProduct();
+if ($product->getTypeId() === 'configurable') {
+    $optionArray = $helper->getOptions($item);
+}
+$options = $this->getChild('employee.wishlist.item.options')
+    ->setItem($item)
+    ->getConfiguredOptions();
+?>
+<div class="cart-cell">
+    <?php echo $this->getPriceHtml($product, empty($options)); ?>
+    <div class="add-to-cart-alt">
+        <?php if ($item->canHaveQty() && $item->getProduct()->isVisibleInSiteVisibility()): ?>
+            <div class="input-box"><span class="badge"><?php echo $this->getAddToCartQty($item) * 1 ?></span></div>
+        <?php endif; ?>
+        <?php if ($product->isSaleable()): ?>
+            <?php if (isset($optionArray) && empty($optionArray)): ?>
+                <label class="form-control"
+                       for="input_item_<?php echo $item->getId() ?>"><?php echo $this->__('Not configured') ?></label>
+            <?php else: ?>
+                <div class="input-group">
+            <span class="input-group-addon">
+                <input id="input_item_<?php echo $item->getId() ?>" name="item[]"
+                       type="checkbox" title="<?php echo $this->__('Add to Cart') ?>" class="input-box"
+                       value="<?php echo $item->getId() ?>"/>
+            </span>
+                    <label class="form-control"
+                           for="input_item_<?php echo $item->getId() ?>"><?php echo $this->__('Add to Cart') ?></label>
+                </div>
+            <?php endif; ?>
+
+        <?php else: ?>
+            <?php if ($product->getIsSalable()): ?>
+                <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
+            <?php else: ?>
+                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+    <?php foreach ($this->getSortedChildren() as $childName): ?>
+        <?php echo $this->getChildHtml($childName, false); ?>
+    <?php endforeach; ?>
+</div>

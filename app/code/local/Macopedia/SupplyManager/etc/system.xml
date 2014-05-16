@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <supplymanager translate="label" module="macopedia_supplymanager">
+            <label>Supply Manager</label>
+            <tab>sales</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <emails translate="label">
+                    <label>Emails</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <employee_approval_email translate="label">
+                            <label>Employee approval email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Select email template when new employee has been added by Supply Manager.</tooltip>
+                        </employee_approval_email>
+                        <manager_approval_email translate="label">
+                            <label>Supply manager approval email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Select email template when employee adds new Supply Manager.</tooltip>
+                        </manager_approval_email>
+                        <employee_invitation_email translate="label">
+                            <label>Employee invitation email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Select email template when Supply Manager add employee not registred.</tooltip>
+                        </employee_invitation_email>
+                    </fields>
+                </emails>
+                <pagination translate="label">
+                    <label>Pagination</label>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <sort_order>10</sort_order>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <employees_per_page_values translate="label">
+                            <label>Employees per page Allowed values</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <validate>validate-per-page-value-list</validate>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Comma-separated.</comment>
+                        </employees_per_page_values>
+                        <employees_per_page translate="label">
+                            <label>Employees per page Default value</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <validate>validate-per-page-value</validate>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Must be in the allowed values list.</comment>
+                        </employees_per_page>
+                    </fields>
+                </pagination>
+            </groups>
+        </supplymanager>
+    </sections>
+</config>

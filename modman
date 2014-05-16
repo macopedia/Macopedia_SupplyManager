@@ -1,0 +1,7 @@
+app/code/local/Macopedia/SupplyManager     app/code/local/Macopedia/SupplyManager
+app/etc/modules/*    app/etc/modules/
+app/design/frontend/base/default/layout/macopedia_supplymanager.xml app/design/frontend/base/default/layout/macopedia_supplymanager.xml
+app/design/frontend/b-responsive/default/layout/macopedia_supplymanager.xml app/design/frontend/b-responsive/default/layout/macopedia_supplymanager.xml
+app/design/frontend/base/default/template/macopedia_supplymanager app/design/frontend/base/default/template/macopedia_supplymanager
+app/design/frontend/b-responsive/default/template/macopedia_supplymanager app/design/frontend/b-responsive/default/template/macopedia_supplymanager
+app/locale/en_US/template/email/supplymanager  app/locale/en_US/template/email/supplymanager

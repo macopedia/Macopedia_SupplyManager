@@ -1,0 +1,112 @@
+<?php $attachedManagers = $this->getManagersCollection(); ?>
+<?php $pendingAttachedManagers = $this->getPendingManagersCollection(); ?>
+<div class="dashboard">
+    <div class="box-account box-supply-managers">
+        <div class="box-head"><h2><?= $this->__('Supply managers') ?></h2></div>
+        <div class="col1-layout">
+            <div class="box">
+                <div class="box-content">
+                    <form class="employee-form" action="<?php echo $this->getUrl('sm-manager/employee/addManagerPost/') ?>"
+                          id="form-validate" method="post">
+                        <div class="fieldset">
+                            <?php echo $this->getBlockHtml('formkey') ?>
+                            <h2 class="legend"><?php echo $this->__('Add supply manager') ?></h2>
+                            <ul class="form-list">
+                                <li class="wide">
+                                    <label class="required" for="email"><em>*</em> <?php echo $this->__('Your supply manager email') ?>
+                                    </label>
+
+                                    <div class="input-box">
+                                        <input type="text" class="input-text required-entry validate-email" title="Email Address" value="" id="email" name="email">
+                                    </div>
+                                </li>
+                            </ul>
+                            <button class="button" title="Save Address" type="submit">
+                                <span><span><?php echo $this->__('Add supply manager') ?></span></span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <?php if ($attachedManagers->getSize() > 0 || $pendingAttachedManagers->getSize() > 0): ?>
+            <div class="col1-layout">
+                <div class="box">
+                    <div class="box-title"><h4><?= $this->__('Your supply managers') ?></h4></div>
+                    <div class="box-content">
+                        <table class="data-table" id="sm-table">
+                            <colgroup>
+                                <col width="1"/>
+                                <col width="1"/>
+                                <col width="1"/>
+                                <col width="1"/>
+                            </colgroup>
+                            <thead>
+                            <tr class="first last">
+                                <th><?= $this->__('First Name'); ?></th>
+                                <th><?= $this->__('Last Name'); ?></th>
+                                <th><span class="nobr"><?= $this->__('Email'); ?></span></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody class="font12">
+                            <?php foreach ($pendingAttachedManagers as $attachment): ?>
+                                <?php if ($attachment->getSupplyManagerId()) : ?>
+                                    <?php
+                                    $manager = Mage::getModel('customer/customer')->load(
+                                        $attachment->getSupplyManagerId()
+                                    ) ?>
+                                    <tr class="first last odd">
+                                        <td><span class="nobr"><?= $manager->getFirstname() ?></span></td>
+                                        <td><span class="nobr"><?= $manager->getLastname() ?></span></td>
+                                        <td class="last"><em><?= $manager->getEmail() ?></em></td>
+                                        <td class="last">
+                                            <?php
+                                            if ($attachment->getStatus()
+                                                == Macopedia_SupplyManager_Model_Attachment::STATUS_PENDING
+                                            ) :?>
+                                                <a href="<?php echo($this->getUrl('sm-manager/employee/approve',
+                                                    array('id' => $attachment->getId()))) ?>" class="left"><?php echo Mage::helper('macopedia_supplymanager')
+                                                        ->__("Approve") ?></a>
+                                                <a href="<?php echo($this->getUrl('sm-manager/employee/reject',
+                                                    array('id' => $attachment->getId()))) ?>" class="right"><?php echo Mage::helper('macopedia_supplymanager')
+                                                        ->__("Reject") ?></a>
+                                            <?php endif; ?></td>
+                                    </tr>
+                                <?php
+                                endif; ?>
+                            <?php endforeach; ?>
+                            <?php foreach ($attachedManagers as $attachment): ?>
+                                <?php if ($attachment->getSupplyManagerId()) : ?>
+                                    <?php
+                                    $manager = Mage::getModel('customer/customer')->load(
+                                        $attachment->getSupplyManagerId()
+                                    ) ?>
+                                    <tr class="first last odd">
+                                        <td><span class="nobr"><?= $manager->getFirstname() ?></span></td>
+                                        <td><span class="nobr"><?= $manager->getLastname() ?></span></td>
+                                        <td class="last"><em><?= $manager->getEmail() ?></em></td>
+                                        <td class="last">
+                                            <?php
+                                            if ($attachment->getStatus()
+                                                == Macopedia_SupplyManager_Model_Attachment::STATUS_PENDING
+                                            ) :?>
+                                                <a href="<?php echo($this->getUrl('sm-manager/employee/approve',
+                                                    array('id' => $attachment->getId()))) ?>" class="left"><?php echo Mage::helper('macopedia_supplymanager')
+                                                        ->__("Approve") ?></a>
+                                                <a href="<?php echo($this->getUrl('sm-manager/employee/reject',
+                                                    array('id' => $attachment->getId()))) ?>" class="right"><?php echo Mage::helper('macopedia_supplymanager')
+                                                        ->__("Reject") ?></a>
+                                            <?php endif; ?></td>
+                                    </tr>
+                                <?php
+                                endif; ?>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <script type="text/javascript">decorateTable('sm-table');</script>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>

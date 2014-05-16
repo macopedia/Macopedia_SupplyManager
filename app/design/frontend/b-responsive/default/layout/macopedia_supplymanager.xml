@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="macopedia_supplymanager">
+                <name>sm_employees</name>
+                <path>sm-manager/employee/</path>
+                <label>View Employees</label>
+            </action>
+            <action method="addLink" translate="label" module="macopedia_supplymanager">
+                <name>sm_request</name>
+                <path>sm-manager/request/</path>
+                <label>Employees wishlist</label>
+            </action>
+        </reference>
+    </customer_account>
+    <customer_account_index>
+        <reference name="my.account.wrapper">
+            <block after="info" type="macopedia_supplymanager/manager_list" name="manager_list"
+                   template="macopedia_supplymanager/manager_list.phtml"/>
+        </reference>
+    </customer_account_index>
+    <macopedia_supplymanager_route_employee_add>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="core/template" name="add_employee" template="macopedia_supplymanager/add_employee.phtml"/>
+        </reference>
+    </macopedia_supplymanager_route_employee_add>
+    <macopedia_supplymanager_route_employee_index>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="macopedia_supplymanager/employee_list" name="employee_list"
+                   template="macopedia_supplymanager/employee_list.phtml"/>
+        </reference>
+    </macopedia_supplymanager_route_employee_index>
+    <macopedia_supplymanager_route_request_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="macopedia_supplymanager/request_list" name="sm_requests"
+                   template="macopedia_supplymanager/requests.phtml">
+                <block type="wishlist/customer_wishlist_items" name="employee.wishlist.items" as="items"
+                       template="macopedia_supplymanager/requestlist/item/list.phtml">
+                    <block type="wishlist/customer_wishlist_item_column_image" name="employee.wishlist.item.image"
+                           template="macopedia_supplymanager/requestlist/item/column/image.phtml"/>
+                    <block type="wishlist/customer_wishlist_item_column_comment" name="employee.wishlist.item.info"
+                           template="macopedia_supplymanager/requestlist/item/column/info.phtml">
+                    </block>
+                    <block type="wishlist/customer_wishlist_item_column_cart" name="employee.wishlist.item.cart" template="macopedia_supplymanager/requestlist/item/column/cart.phtml">
+                        <action method="setTitle" translate="title">
+                            <title>Add to Cart</title>
+                        </action>
+                        <block type="wishlist/customer_wishlist_item_options" name="employee.wishlist.item.options" />
+                    </block>
+                    <block type="wishlist/customer_wishlist_item_column_remove" name="employee.wishlist.item.remove" template="macopedia_supplymanager/requestlist/item/column/remove.phtml" />
+                </block>
+                <block type="core/text_list" name="employee.wishlist.buttons" as="control_buttons">
+                    <block type="wishlist/customer_wishlist_button" name="employee.wishlist.button.toCart" template="macopedia_supplymanager/requestlist/button/tocart.phtml" />
+                </block>
+            </block>
+        </reference>
+    </macopedia_supplymanager_route_request_index>
+    <customer_account_create>
+        <reference name="customer_form_register">
+            <action method="setTemplate">
+                <template>macopedia_supplymanager/customer/register.phtml</template>
+            </action> 
+        </reference>
+    </customer_account_create>
+</layout>

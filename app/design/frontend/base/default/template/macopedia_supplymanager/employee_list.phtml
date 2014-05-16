@@ -1,0 +1,147 @@
+<?php $attachedEmployees = $this->getEmployeeCollection(); ?>
+<?php $pendingAttachedEmployees = $this->getPendingEmployeeCollection(); ?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="page-title">
+    <h1><?= Mage::helper('macopedia_supplymanager')->__('Add Employee') ?></h1>
+</div>
+<form class="employee-form" action="<?php echo $this->getUrl('sm-manager/employee/addPost/')?>" id="form-validate" method="post">
+    <div class="fieldset">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <h2 class="legend"><?php echo Mage::helper('macopedia_supplymanager')->__('Add new employee') ?></h2>
+        <ul class="form-list">
+            <li class="wide">
+                <label for="email" class="required"><em>*</em> <?php echo Mage::helper('macopedia_supplymanager')->__('Enter employee email address') ?></label>
+                <div class="input-box">
+                    <input name="email" id="email"
+                           title="<?php echo Mage::helper('macopedia_supplymanager')->__('Email Address') ?>" value=""
+                           class="input-text required-entry validate-email" type="text"/>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 form-group a-right">
+            <button type="submit" title="<?php echo Mage::helper('macopedia_supplymanager')->__('Add employee') ?>" class="button"><span><span><?php echo Mage::helper('macopedia_supplymanager')->__("Add employee") ?></span></span></button>
+            <p class="required a-right"><?php echo $this->__('* Required Fields') ?></p>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    //<![CDATA[
+    var dataForm = new VarienForm('form-validate', true);
+    //]]>
+</script>
+<?php if ($attachedEmployees->getSize() > 0 || $pendingAttachedEmployees->getSize() > 0): ?>
+    <div class="page-title">
+        <h1><?= Mage::helper('macopedia_supplymanager')->__('Your employees') ?></h1>
+    </div>
+    <table class="data-table" id="employee-table">
+            <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+            <tr class="first last">
+                <th><?= Mage::helper('macopedia_supplymanager')->__('First Name'); ?></th>
+                <th><?= Mage::helper('macopedia_supplymanager')->__('Last Name'); ?></th>
+                <th><span class="nobr"><?= Mage::helper('macopedia_supplymanager')->__('Email'); ?></span></th>
+                <th><span class="nobr"><?= Mage::helper('macopedia_supplymanager')->__('Status'); ?></span></th>
+                <th><span class="nobr"><?= Mage::helper('macopedia_supplymanager')->__('Action'); ?></span></th>
+            </tr>
+            </thead>
+            <tbody class="font12">
+            <?php foreach ($pendingAttachedEmployees as $attachment):?>
+                <?php $employee = Mage::getModel('customer/customer')->load($attachment->getEmployeeId());
+                ?>
+                <?php if($employee->getId()): ?>
+                    <tr class="first odd">
+                        <td><span class="nobr"><?= $employee->getFirstname() ?></span></td>
+                        <td><span class="nobr"><?= $employee->getLastname() ?></span></td>
+                        <td class=""><em><?= $employee->getEmail() ?></em></td>
+                        <td class=""><?= Mage::helper('macopedia_supplymanager')->getAttachmentStatusString($attachment) ?></td>
+                        <td class="last">
+                            <?php
+                            if ($attachment->getStatus() == Macopedia_SupplyManager_Model_Attachment::STATUS_PENDING) :?>
+                                <a href="<?php echo($this->getUrl('sm-manager/employee/approveEmployee',
+                                    array('id' => $attachment->getId()))) ?>" class="left"><?php echo Mage::helper('macopedia_supplymanager')
+                                        ->__("Approve") ?></a>
+                                <a href="<?php echo($this->getUrl('sm-manager/employee/rejectEmployee',
+                                    array('id' => $attachment->getId()))) ?>" class="right"><?php echo Mage::helper('macopedia_supplymanager')
+                                        ->__("Reject") ?></a>
+                            <?php else :?>
+                                <a class="sm-remove-employee" href="#"
+                                   data-href='<?= $this->getUrl('*/*/remove', array('attachment_id' => $attachment->getId())); ?>'><?= Mage::helper('macopedia_supplymanager')->__('Remove Employee'); ?></a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <?php foreach ($attachedEmployees as $attachment):?>
+                <?php $employee = Mage::getModel('customer/customer')->load($attachment->getEmployeeId());
+                ?>
+                <?php if($employee->getId()): ?>
+                <tr class="first odd">
+                    <td><span class="nobr"><?= $employee->getFirstname() ?></span></td>
+                    <td><span class="nobr"><?= $employee->getLastname() ?></span></td>
+                    <td class=""><em><?= $employee->getEmail() ?></em></td>
+                    <td class=""><?= Mage::helper('macopedia_supplymanager')->getAttachmentStatusString($attachment) ?></td>
+                    <td class="last">
+                        <?php
+                        if ($attachment->getStatus() == Macopedia_SupplyManager_Model_Attachment::STATUS_PENDING) :?>
+                            <a href="<?php echo($this->getUrl('sm-manager/employee/approveEmployee',
+                                array('id' => $attachment->getId()))) ?>" class="left"><?php echo Mage::helper('macopedia_supplymanager')
+                                    ->__("Approve") ?></a>
+                            <a href="<?php echo($this->getUrl('sm-manager/employee/rejectEmployee',
+                                array('id' => $attachment->getId()))) ?>" class="right"><?php echo Mage::helper('macopedia_supplymanager')
+                                    ->__("Reject") ?></a>
+                        <?php else :?>
+                        <a class="sm-remove-employee" href="#"
+                           data-href='<?= $this->getUrl('*/*/remove', array('attachment_id' => $attachment->getId())); ?>'><?= Mage::helper('macopedia_supplymanager')->__('Remove Employee'); ?></a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <script type="text/javascript">
+            decorateTable('employee-table');
+            $$('.sm-remove-employee').each(function (item) {
+                item.observe('click', function (e) {
+                    e.preventDefault();
+                    if (confirm('<?= Mage::helper('macopedia_supplymanager')->__('Are You sure?') ?>')) {
+                        new Ajax.Request($(this).readAttribute('data-href'), {
+                            method: 'post',
+                            requestHeaders: {Accept: 'application/json'},
+                            onSuccess: function (transport) {
+                                var data = transport.responseText.evalJSON();
+                                if (data.type === 'success') {
+                                    item.up().up().remove();
+                                    var textmsg = '<ul class="messages"><li class="success-msg"><ul><li><span>' + data.msg + '</span></li></ul></li></ul>';
+                                } else {
+                                    var textmsg = '<ul class="messages"><li class="error-msg"><ul><li><span>' + data.msg + '</span></li></ul></li></ul>';
+                                }
+                                $$('.page-title').first().insert({after: textmsg});
+
+                            },
+                            onFailure: function () {
+                                var textmsg = '<ul class="messages"><li class="error-msg"><ul><li><span>' + data.msg + '</span></li></ul></li></ul>';
+                                $$('.page-title').first().insert({after: textmsg});
+                            }
+                        });
+
+                        $$('.messages').each(function (item) {
+                            item.hide();
+                        });
+                    }
+                    return false;
+                });
+            })
+        </script>
+<?php endif; ?>

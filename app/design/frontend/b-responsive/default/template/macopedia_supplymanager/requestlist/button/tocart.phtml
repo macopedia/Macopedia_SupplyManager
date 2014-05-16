@@ -1,0 +1,46 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<div class="col-lg-3">
+    <div class="input-group">
+            <span class="input-group-addon">
+                <input
+                    onclick="var that = $(this);$$('.input-group-addon input[type=checkbox]').each(function(i){i.checked = that.checked;});"
+                    id="input_item_all" type="checkbox" title="<?php echo $this->__('Select all') ?>"
+                    class="input-box"/>
+            </span>
+        <label class="form-control" for="input_item_all"><?php echo $this->__('Select all') ?></label>
+    </div>
+</div>
+
+<button
+    onclick="if(!confirm('<?php echo $this->__('Adding item to cart will remove it from your and employee list. Are you sure?') ?>')) return false"
+    type="submit" title="<?php echo $this->__('Add All Selected to Cart') ?>" class="btn btn-success">
+    <span class="glyphicon glyphicon-shopping-cart mr-3"></span>
+    <span><?php echo $this->__('Add All Selected to Cart') ?></span>
+</button>
+
